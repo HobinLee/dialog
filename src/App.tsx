@@ -1,14 +1,22 @@
 import React, { ReactElement } from 'react';
 
-import Icon from '../public/assets/icon.svg';
+import { openDialog } from './dialog/dialog';
+import { DialogContainer } from './dialog/DialogContainer';
+import { DialogTemplate } from './dialog/DialogTemplate';
 
 interface Props {}
 
 function App({}: Props): ReactElement {
   return (
     <>
-      <h1>Let's Start New Project!</h1>
-      <Icon />
+      <button
+        onClick={() => openDialog(<DialogTemplate>ㅎㅇㅎㅇ</DialogTemplate>)}
+      >
+        모달창 열기
+      </button>
+      <DialogTemplate>1</DialogTemplate>
+      <DialogTemplate onClose={() => console.log('close 2')}>2</DialogTemplate>
+      <DialogTemplate>3</DialogTemplate>
     </>
   );
 }
