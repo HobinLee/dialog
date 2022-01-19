@@ -6,6 +6,6 @@ export const dialogEvent = {
   close: 'closeDialog',
 };
 
-export const openDialog = (content: ReactElement) => {
+const openDialog = (content: ReactElement) => {
   render(content, document.getElementById('dialogs')!);
 };
