@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
+import { openDialog } from './dialog/Dialogs';
 
-import { openDialog } from './dialog/dialog';
 import { DialogTemplate } from './dialog/DialogTemplate';
 
 interface Props {}
@@ -12,7 +12,7 @@ function App({}: Props): ReactElement {
         onClick={() =>
           openDialog(
             <DialogTemplate
-              onDestroy={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
+              onClose={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
             >
               1
             </DialogTemplate>,
@@ -25,9 +25,9 @@ function App({}: Props): ReactElement {
         onClick={() => {
           openDialog(
             <>
-              <DialogTemplate id="0">A</DialogTemplate>
-              <DialogTemplate id="1">B</DialogTemplate>
-              <DialogTemplate id="2">C</DialogTemplate>
+              <DialogTemplate key="1">A</DialogTemplate>
+              <DialogTemplate key="2">B</DialogTemplate>
+              <DialogTemplate key="3">C</DialogTemplate>
             </>,
           );
         }}

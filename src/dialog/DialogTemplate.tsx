@@ -5,28 +5,30 @@ import styled from 'styled-components';
 interface DialogProps {
   className?: string;
   onOpen?: () => void;
+  onClose?: () => void;
   onDestroy?: (isConfirm?: boolean) => void;
-  id?: string;
 }
 
 export const DialogTemplate: FC<DialogProps> = ({
   onOpen,
+  onClose,
   onDestroy,
   children,
-  id,
 }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisibile] = useState(true);
+  const [destroy, setDestroy] = useState(false);
 
   const close: MouseEventHandler<HTMLDivElement> = e => {
     const currentDialog: HTMLElement = ref.current!;
 
     setIsVisibile(false);
+    onClose?.();
+
     currentDialog.onanimationend = (e: AnimationEvent) => {
-      // (ref.current! as HTMLElement).onanimationend = null;
-      currentDialog.parentNode?.removeChild(currentDialog);
-      console.log('나 지워짐');
-      //unmountComponentAtNode(document.getElementById('dialogs')!);
+      onDestroy?.();
+      currentDialog.onanimationend = null;
+      setDestroy(true);
     };
 
     e.stopPropagation();
@@ -34,13 +36,13 @@ export const DialogTemplate: FC<DialogProps> = ({
 
   useEffect(() => {
     onOpen?.();
-    return () => {
-      onDestroy?.();
-    };
+    return () => {};
   }, []);
 
+  if (destroy) return null;
+
   return (
-    <Backdrop ref={ref} isVisible={isVisible} onClick={close} id={id}>
+    <Backdrop ref={ref} isVisible={isVisible} onClick={close}>
       <Dialog>{children}</Dialog>
     </Backdrop>
   );
