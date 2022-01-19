@@ -6,24 +6,31 @@ import {
   useEffect,
   useState,
 } from 'react';
+
 let id = 0;
+
+const dialogs: ReactNode[] = [];
 export const Dialogs: FC = () => {
-  const [dialogs, setDialogs] = useState<ReactNode[]>([]);
+  const [dialogList, setDialogList] = useState<ReactNode[]>([]);
 
-  useEffect(() => {
-    console.log(dialogs);
-  }, [dialogs]);
+  const addDialog = (e: Event) => {
+    const newDialog = cloneElement((e as DialogEvent).detail.content, {
+      key: id++,
+    });
+    dialogs.push(newDialog);
 
-  const addDialog = (e: DialogEvent) => {
-    const newDialog = cloneElement(e.detail.content, { key: id++ });
-    setDialogs([...dialogs, newDialog]);
+    setDialogList([...dialogList, newDialog]);
   };
 
   useEffect(() => {
-    window.addEventListener('openDialog', e => addDialog(e as DialogEvent));
-  }, []);
+    console.log(dialogList.length, dialogList.pop());
+    window.addEventListener('openDialog', addDialog);
+    return () => {
+      window.removeEventListener('openDialog', addDialog);
+    };
+  }, [dialogList]);
 
-  return <div id="dialogs">{dialogs.map(dialog => dialog)}</div>;
+  return <>{dialogList}</>;
 };
 
 interface DialogEvent extends Event {

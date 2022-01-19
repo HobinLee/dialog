@@ -1,5 +1,5 @@
 import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
-import { unmountComponentAtNode } from 'react-dom';
+import { createPortal, unmountComponentAtNode } from 'react-dom';
 import styled from 'styled-components';
 
 interface DialogProps {
@@ -41,10 +41,11 @@ export const DialogTemplate: FC<DialogProps> = ({
 
   if (destroy) return null;
 
-  return (
+  return createPortal(
     <Backdrop ref={ref} isVisible={isVisible} onClick={close}>
       <Dialog>{children}</Dialog>
-    </Backdrop>
+    </Backdrop>,
+    document.getElementById('dialogs')!,
   );
 };
 

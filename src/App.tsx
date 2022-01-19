@@ -24,11 +24,14 @@ function App({}: Props): ReactElement {
       <button
         onClick={() => {
           openDialog(
-            <>
-              <DialogTemplate key="1">A</DialogTemplate>
-              <DialogTemplate key="2">B</DialogTemplate>
-              <DialogTemplate key="3">C</DialogTemplate>
-            </>,
+            <DialogTemplate>
+              A
+              <button
+                onClick={() => openDialog(<DialogTemplate>B</DialogTemplate>)}
+              >
+                다음 모달
+              </button>
+            </DialogTemplate>,
           );
         }}
       >
