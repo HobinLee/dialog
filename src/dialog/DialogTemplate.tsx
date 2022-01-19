@@ -23,10 +23,12 @@ export const DialogTemplate: FC<DialogProps> = ({
 
     setIsVisibile(false);
     currentDialog.onanimationend = (e: AnimationEvent) => {
-      // (ref.current! as HTMLElement).onanimationend = null;
-      currentDialog.parentNode?.removeChild(currentDialog);
-      console.log('나 지워짐');
-      //unmountComponentAtNode(document.getElementById('dialogs')!);
+      onDestroy?.();
+
+      const dialog = currentDialog.parentNode!;
+      const dialogsWrap = dialog.parentNode!;
+
+      dialogsWrap.removeChild(dialog);
     };
 
     e.stopPropagation();
@@ -34,9 +36,7 @@ export const DialogTemplate: FC<DialogProps> = ({
 
   useEffect(() => {
     onOpen?.();
-    return () => {
-      onDestroy?.();
-    };
+    return () => {};
   }, []);
 
   return (

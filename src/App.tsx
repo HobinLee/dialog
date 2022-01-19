@@ -23,13 +23,9 @@ function App({}: Props): ReactElement {
       </button>
       <button
         onClick={() => {
-          openDialog(
-            <>
-              <DialogTemplate id="0">A</DialogTemplate>
-              <DialogTemplate id="1">B</DialogTemplate>
-              <DialogTemplate id="2">C</DialogTemplate>
-            </>,
-          );
+          openDialog(<DialogTemplate>A</DialogTemplate>);
+          openDialog(<DialogTemplate>B</DialogTemplate>);
+          openDialog(<DialogTemplate>C</DialogTemplate>);
         }}
       >
         한번에 여러 모달창 나오기
