@@ -12,7 +12,7 @@ function App({}: Props): ReactElement {
         onClick={() =>
           openDialog(
             <DialogTemplate
-              onClose={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
+              onDestroy={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
             >
               1
             </DialogTemplate>,

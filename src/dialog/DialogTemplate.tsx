@@ -1,24 +1,17 @@
-import {
-  FC,
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { createPortal, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { unmountComponentAtNode } from 'react-dom';
 import styled from 'styled-components';
 
 interface DialogProps {
   className?: string;
   onOpen?: () => void;
-  onClose?: (isConfirm?: boolean) => void;
+  onDestroy?: (isConfirm?: boolean) => void;
   id?: string;
 }
 
 export const DialogTemplate: FC<DialogProps> = ({
   onOpen,
-  onClose,
+  onDestroy,
   children,
   id,
 }) => {
@@ -26,12 +19,14 @@ export const DialogTemplate: FC<DialogProps> = ({
   const [isVisible, setIsVisibile] = useState(true);
 
   const close: MouseEventHandler<HTMLDivElement> = e => {
-    console.log('a');
     const currentDialog: HTMLElement = ref.current!;
 
     setIsVisibile(false);
     currentDialog.onanimationend = (e: AnimationEvent) => {
-      currentDialog.remove();
+      // (ref.current! as HTMLElement).onanimationend = null;
+      currentDialog.parentNode?.removeChild(currentDialog);
+      console.log('나 지워짐');
+      //unmountComponentAtNode(document.getElementById('dialogs')!);
     };
 
     e.stopPropagation();
@@ -40,7 +35,7 @@ export const DialogTemplate: FC<DialogProps> = ({
   useEffect(() => {
     onOpen?.();
     return () => {
-      onClose?.();
+      onDestroy?.();
     };
   }, []);
 
