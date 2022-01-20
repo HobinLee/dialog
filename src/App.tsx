@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { openDialog } from './dialog/Dialogs';
 
 import { DialogTemplate } from './dialog/DialogTemplate';
+import { TestDialog } from './dialog/TestDialog';
 
 interface Props {}
 
@@ -12,7 +13,7 @@ function App({}: Props): ReactElement {
         onClick={() =>
           openDialog(
             <DialogTemplate
-              onClose={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
+              onDestroy={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
             >
               1
             </DialogTemplate>,
@@ -25,14 +26,21 @@ function App({}: Props): ReactElement {
         onClick={() => {
           openDialog(
             <>
-              <DialogTemplate key="1">A</DialogTemplate>
-              <DialogTemplate key="2">B</DialogTemplate>
-              <DialogTemplate key="3">C</DialogTemplate>
+              <DialogTemplate>A</DialogTemplate>
+              <DialogTemplate>B</DialogTemplate>
+              <DialogTemplate>C</DialogTemplate>
             </>,
           );
         }}
       >
         한번에 여러 모달창 나오기
+      </button>
+      <button
+        onClick={() => {
+          openDialog(<TestDialog idx={0} />);
+        }}
+      >
+        중복 모달 띄우기
       </button>
     </>
   );
