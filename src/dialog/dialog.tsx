@@ -1,5 +1,5 @@
-import { cloneElement, ReactElement, ReactNode } from 'react';
-import { createPortal, render } from 'react-dom';
+import { ReactElement } from 'react';
+import { render } from 'react-dom';
 
 export const dialogEvent = {
   open: 'openDialog',

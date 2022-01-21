@@ -1,4 +1,11 @@
-import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  MouseEventHandler,
+  ReactEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 interface DialogProps {
@@ -7,6 +14,8 @@ interface DialogProps {
   onClose?: () => void;
   onDestroy?: (isConfirm?: boolean) => void;
 }
+
+const blockClick: ReactEventHandler = e => e.stopPropagation();
 
 export const DialogTemplate: FC<DialogProps> = ({
   onOpen,
@@ -42,7 +51,7 @@ export const DialogTemplate: FC<DialogProps> = ({
 
   return (
     <Backdrop ref={ref} isVisible={isVisible} onClick={close}>
-      <Dialog>{children}</Dialog>
+      <Dialog onClick={blockClick}>{children}</Dialog>
     </Backdrop>
   );
 };

@@ -20,7 +20,6 @@ export const Dialogs: FC = () => {
   };
 
   useEffect(() => {
-    console.log('dialogs change', window);
     window.addEventListener('openDialog', addDialog);
     return () => {
       window.removeEventListener('openDialog', addDialog);
