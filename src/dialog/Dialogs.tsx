@@ -1,6 +1,7 @@
 import {
   cloneElement,
   FC,
+  Fragment,
   ReactElement,
   ReactNode,
   useEffect,
@@ -12,37 +13,41 @@ let id = 0;
 export const Dialogs: FC = () => {
   const [dialogs, setDialogs] = useState<ReactNode[]>([]);
 
-  useEffect(() => {
-    console.log(dialogs);
-  }, [dialogs]);
-
   const addDialog = (e: Event) => {
-    const newDialog = cloneElement((e as DialogEvent).detail.content, {
-      key: id++,
-    });
-    setDialogs([...dialogs, newDialog]);
+    setDialogs([
+      ...dialogs,
+      cloneElement((e as DialogEvent).detail.dialog, { key: id++ }),
+    ]);
   };
 
   useEffect(() => {
+    console.log('dialogs change', window);
     window.addEventListener('openDialog', addDialog);
     return () => {
       window.removeEventListener('openDialog', addDialog);
     };
   }, [dialogs]);
 
+  // useEffect(() => {
+  //   window.addEventListener('openDialog', addDialog);
+  // return () => {
+  //   window.removeEventListener('openDialog', addDialog);
+  // };
+  // }, []);
+
   return <div id="dialogs">{dialogs}</div>;
 };
 
 interface DialogEvent extends Event {
   detail: {
-    content: ReactElement;
+    dialog: ReactElement;
   };
 }
 
-export const openDialog = (content: ReactNode) => {
+export const openDialog = (dialog: ReactNode) => {
   const dialogEvent = new CustomEvent('openDialog', {
     detail: {
-      content,
+      dialog,
     },
   });
 
