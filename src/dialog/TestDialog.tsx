@@ -1,15 +1,24 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { openDialog } from './Dialogs';
 import { DialogTemplate } from './DialogTemplate';
-export const TestDialog: FC<{ idx: number }> = ({ idx }) => (
-  <DialogTemplate>
-    {idx}
-    <button
-      onClick={() => {
-        openDialog(<TestDialog idx={idx + 1} />);
-      }}
-    >
-      다이얼로그 또 추가
-    </button>
-  </DialogTemplate>
-);
+
+export const TestDialog: FC<{ idx: number }> = ({ idx }) => {
+  const [num, setNum] = useState(0);
+
+  return (
+    <DialogTemplate>
+      {idx}
+      <button
+        onClick={() => {
+          openDialog(<TestDialog idx={idx + 1} />);
+        }}
+      >
+        다이얼로그 또 추가
+      </button>
+
+      <button onClick={() => setNum(num - 1)}>-</button>
+      {num}
+      <button onClick={() => setNum(num + 1)}>+</button>
+    </DialogTemplate>
+  );
+};
