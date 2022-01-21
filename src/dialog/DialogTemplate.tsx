@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 interface DialogProps {
@@ -49,10 +50,11 @@ export const DialogTemplate: FC<DialogProps> = ({
 
   if (destroy) return null;
 
-  return (
+  return createPortal(
     <Backdrop ref={ref} isVisible={isVisible} onClick={close}>
       <Dialog onClick={blockClick}>{children}</Dialog>
-    </Backdrop>
+    </Backdrop>,
+    document.querySelector('body')!,
   );
 };
 
