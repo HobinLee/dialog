@@ -1,10 +1,11 @@
-import { FC, MouseEventHandler, ReactEventHandler, useRef } from 'react';
+import { FC, MouseEventHandler, ReactElement, useRef } from 'react';
 import styled from 'styled-components';
 import { Backdrop, blockClick } from '../Dialog';
 import { DialogProps, useDialog } from '../useDialog';
 
 interface BottomSheetProps extends DialogProps {
   title?: string;
+  children: FC<{ close: (withAnimation?: boolean) => void }>;
 }
 
 export const BottomSheet: FC<BottomSheetProps> = ({
@@ -22,7 +23,7 @@ export const BottomSheet: FC<BottomSheetProps> = ({
   return destroy ? null : (
     <Backdrop ref={ref} isVisible={isVisible} onClick={closeAndStopPropagation}>
       <BottomSheetWrap isVisible={isVisible} onClick={blockClick}>
-        {children}
+        {children({ close })}
       </BottomSheetWrap>
     </Backdrop>
   );
