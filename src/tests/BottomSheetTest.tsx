@@ -1,6 +1,5 @@
-import { openDialog } from '@src/dialog/Dialogs';
+import { alert, confirm, openDialog } from '@src/dialog/Dialogs';
 import { BottomSheet } from '@src/dialog/dialogs/BottomSheet';
-import { Confirm } from '@src/dialog/dialogs/Confirm';
 import { FC, useState } from 'react';
 
 const list = new Array(10).fill(0);
@@ -8,23 +7,24 @@ const list = new Array(10).fill(0);
 const TestDialogBottom: FC<{
   setSelected: (num: number) => void;
 }> = ({ setSelected }) => (
-  <BottomSheet>
+  <BottomSheet
+    onClose={async () => {
+      await alert('바텀 시트 꺼졌음');
+
+      console.log('바텀 시트 꺼짐');
+    }}
+  >
     {({ close }) => (
       <div style={{ height: '100px' }}>
         <ul>
           {list.map((_, idx) => (
             <li key={idx}>
               <button
-                onClick={() => {
-                  openDialog(
-                    <Confirm
-                      message={`${idx}로 설정 하시겠습니까?`}
-                      onConfirm={() => {
-                        setSelected(idx);
-                        close();
-                      }}
-                    />,
-                  );
+                onClick={async () => {
+                  if (await confirm(`${idx}로 설정하시겠습니까?`)) {
+                    setSelected(idx);
+                    close();
+                  }
                 }}
               >
                 {idx}

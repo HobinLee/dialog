@@ -1,4 +1,6 @@
 import { cloneElement, FC, ReactElement, useEffect, useState } from 'react';
+import { Alert } from './dialogs/Alert';
+import { Confirm } from './dialogs/Confirm';
 
 interface DialogEvent extends Event {
   detail: {
@@ -42,3 +44,34 @@ export const openDialog = (dialog: ReactElement) => {
 
   window.dispatchEvent(dialogEvent);
 };
+
+export const confirm = async (message: string): Promise<boolean> => {
+  return new Promise(resolved => {
+    openDialog(
+      <Confirm
+        message={message}
+        onConfirm={async () => {
+          resolved(true);
+        }}
+        onCancel={async () => {
+          resolved(false);
+        }}
+      />,
+    );
+  });
+};
+
+export const alert = async (message: string): Promise<void> => {
+  return new Promise(resolved => {
+    openDialog(
+      <Alert
+        message={message}
+        onClose={async () => {
+          resolved();
+        }}
+      />,
+    );
+  });
+};
+
+//confirm: (message: string, props?: DialogStoreConfirmProps & DialogOptions) => Promise<boolean>;
