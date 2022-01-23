@@ -10,6 +10,7 @@ import { TestDialog3 } from './dialog/TestDialog3';
 import { testState } from './store/test';
 import { Confirm } from './dialog/dialogs/Confirm';
 import { Alert } from './dialog/dialogs/Alert';
+import { BottomSheet } from './dialog/dialogs/BottomSheet';
 
 interface Props {}
 
@@ -44,16 +45,6 @@ function App({}: Props): ReactElement {
       <button
         onClick={() => {
           openDialog(<TestDialog2 idx={0} />);
-        }}
-      >
-        중복 모달 띄우기 (전역 상태)
-      </button>
-      <hr />
-      <h2>Props Drilling 테스트</h2>
-      <p>num: {num1}</p>
-      <button
-        onClick={() => {
-          openDialog(<TestDialog3 num={num1} setNum={setNum} />);
         }}
       >
         중복 모달 띄우기 (전역 상태)
@@ -101,6 +92,19 @@ function App({}: Props): ReactElement {
         }}
       >
         confirm
+      </button>
+      <hr />
+      <h2>BottomSheet 테스트</h2>
+      <button
+        onClick={() => {
+          openDialog(
+            <BottomSheet>
+              <div style={{ height: '100px' }}>안녕</div>
+            </BottomSheet>,
+          );
+        }}
+      >
+        중복 모달 띄우기 (전역 상태)
       </button>
     </>
   );
