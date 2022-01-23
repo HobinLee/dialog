@@ -8,6 +8,8 @@ import { TestDialog } from './dialog/TestDialog';
 import { TestDialog2 } from './dialog/TestDialog2';
 import { TestDialog3 } from './dialog/TestDialog3';
 import { testState } from './store/test';
+import { Confirm } from './dialog/dialogs/Confirm';
+import { Alert } from './dialog/dialogs/Alert';
 
 interface Props {}
 
@@ -16,28 +18,6 @@ function App({}: Props): ReactElement {
   const num2 = useRecoilValue(testState);
   return (
     <>
-      <h2>버튼 onClose 테스트</h2>
-      <button
-        onClick={() =>
-          openDialog(
-            <Dialog onClose={() => openDialog(<Dialog>2</Dialog>)}>1</Dialog>,
-          )
-        }
-      >
-        모달창 닫길 때 다른 모달창 나오기
-      </button>
-      <hr />
-      <h2>버튼 onDestory 테스트</h2>
-      <button
-        onClick={() =>
-          openDialog(
-            <Dialog onClose={() => openDialog(<Dialog>2</Dialog>)}>1</Dialog>,
-          )
-        }
-      >
-        모달창 닫길 때 다른 모달창 나오기
-      </button>
-      <hr />
       <h2>모달창 동시 호출 테스트</h2>
       <button
         onClick={() => {
@@ -86,6 +66,41 @@ function App({}: Props): ReactElement {
         }}
       >
         toast
+      </button>
+      <hr />
+      <h2>Confirm 테스트</h2>
+      <button
+        onClick={() => {
+          openDialog(
+            <Confirm
+              message="컨펌?"
+              onConfirm={() => {
+                console.log('on confirm');
+              }}
+              onCancel={() => {
+                console.log('on cancel');
+              }}
+            />,
+          );
+        }}
+      >
+        confirm
+      </button>
+      <hr />
+      <h2>Alert 테스트</h2>
+      <button
+        onClick={() => {
+          openDialog(
+            <Alert
+              message="서버연결에 실패했습니다"
+              onClose={() => {
+                console.log('close alert');
+              }}
+            />,
+          );
+        }}
+      >
+        confirm
       </button>
     </>
   );

@@ -2,7 +2,7 @@ import { FC, MouseEventHandler, ReactEventHandler, useRef } from 'react';
 import styled from 'styled-components';
 import { DialogProps, useDialog } from './useDialog';
 
-const blockClick: ReactEventHandler = e => e.stopPropagation();
+export const blockClick: ReactEventHandler = e => e.stopPropagation();
 
 export const Dialog: FC<DialogProps> = ({ children, ...dialogProps }) => {
   const ref = useRef(null);

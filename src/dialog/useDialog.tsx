@@ -4,30 +4,34 @@ import { unmountComponentAtNode } from 'react-dom';
 export interface DialogProps {
   ref?: any;
   onOpen?: () => void;
-  onClose?: () => void;
-  onDestroy?: (isConfirm?: boolean) => void;
+  onClose?: (isConfirm?: boolean) => void;
 }
 
 export const useDialog = (ref: any, dialogProps?: DialogProps) => {
   const [isVisible, setIsVisibile] = useState(true);
   const [destroy, setDestroy] = useState(false);
 
-  const close = () => {
-    const currentDialog: HTMLElement = ref.current!;
+  const close = (withAnimation: boolean = true) => {
+    if (withAnimation) {
+      const currentDialog: HTMLElement = ref.current!;
+      setIsVisibile(false);
 
-    setIsVisibile(false);
-    dialogProps?.onClose?.();
-
-    currentDialog.onanimationend = (e: AnimationEvent) => {
-      dialogProps?.onDestroy?.();
-      currentDialog.onanimationend = null;
+      currentDialog.onanimationend = (e: AnimationEvent) => {
+        dialogProps?.onClose?.();
+        currentDialog.onanimationend = null;
+        setDestroy(true);
+      };
+    } else {
+      dialogProps?.onClose?.();
       setDestroy(true);
-    };
+    }
   };
 
   useEffect(() => {
     dialogProps?.onOpen?.();
-    return () => {};
+    return () => {
+      dialogProps?.onClose?.();
+    };
   }, []);
 
   return { close, destroy, isVisible };
