@@ -1,15 +1,13 @@
-import { testState } from '@src/store/test';
-import { FC, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { FC } from 'react';
 import { openDialog } from './Dialogs';
-import { DialogTemplate } from './DialogTemplate';
+import { Dialog } from './Dialog';
 
 export const TestDialog3: FC<{
   num: number;
   setNum: (num: number) => void;
 }> = ({ num, setNum }) => {
   return (
-    <DialogTemplate>
+    <Dialog>
       <button
         onClick={() => {
           openDialog(<TestDialog3 num={num} setNum={setNum} />);
@@ -21,6 +19,6 @@ export const TestDialog3: FC<{
       <button onClick={() => setNum(num - 1)}>-</button>
       {num}
       <button onClick={() => setNum(num + 1)}>+</button>
-    </DialogTemplate>
+    </Dialog>
   );
 };

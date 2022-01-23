@@ -36,7 +36,7 @@ export const Dialogs: FC = () => {
 export const openDialog = (dialog: ReactElement) => {
   const dialogEvent = new CustomEvent(EVENT_OPEN_DIALOG, {
     detail: {
-      dialog,
+      dialog: <div>{dialog}</div>,
     },
   });
 

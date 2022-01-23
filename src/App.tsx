@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { openDialog } from './dialog/Dialogs';
 import { Toast } from './dialog/dialogs/Toast';
 
-import { Dialog } from './dialog/DialogTemplate';
+import { Dialog } from './dialog/Dialog';
 import { TestDialog } from './dialog/TestDialog';
 import { TestDialog2 } from './dialog/TestDialog2';
 import { TestDialog3 } from './dialog/TestDialog3';

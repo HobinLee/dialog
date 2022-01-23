@@ -1,8 +1,8 @@
 import { testState } from '@src/store/test';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useRecoilState } from 'recoil';
 import { openDialog } from './Dialogs';
-import { Dialog } from './DialogTemplate';
+import { Dialog } from './Dialog';
 
 export const TestDialog2: FC<{ idx: number }> = ({ idx }) => {
   const [num, setNum] = useRecoilState(testState);

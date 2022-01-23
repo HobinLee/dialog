@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { unmountComponentAtNode } from 'react-dom';
 
 export interface DialogProps {
   ref?: any;

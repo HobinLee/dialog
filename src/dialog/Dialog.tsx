@@ -55,7 +55,9 @@ export const Backdrop = styled.div<{ isVisible: boolean }>`
 `;
 
 const DialogWrap = styled.div`
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: auto;
   background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
 `;

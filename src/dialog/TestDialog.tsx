@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { openDialog } from './Dialogs';
-import { Dialog } from './DialogTemplate';
+import { Dialog } from './Dialog';
 
 export const TestDialog: FC<{ idx: number }> = ({ idx }) => {
   const [num, setNum] = useState(0);
