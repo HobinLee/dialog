@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 import { openDialog } from './Dialogs';
-import { DialogTemplate } from './DialogTemplate';
+import { Dialog } from './DialogTemplate';
 
 export const TestDialog: FC<{ idx: number }> = ({ idx }) => {
   const [num, setNum] = useState(0);
 
   return (
-    <DialogTemplate>
+    <Dialog>
       {idx}
       <button
         onClick={() => {
@@ -19,6 +19,6 @@ export const TestDialog: FC<{ idx: number }> = ({ idx }) => {
       <button onClick={() => setNum(num - 1)}>-</button>
       {num}
       <button onClick={() => setNum(num + 1)}>+</button>
-    </DialogTemplate>
+    </Dialog>
   );
 };

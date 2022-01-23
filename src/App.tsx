@@ -1,8 +1,9 @@
-import React, { ReactElement, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { ReactElement, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { openDialog } from './dialog/Dialogs';
+import { Toast } from './dialog/dialogs/Toast';
 
-import { DialogTemplate } from './dialog/DialogTemplate';
+import { Dialog } from './dialog/DialogTemplate';
 import { TestDialog } from './dialog/TestDialog';
 import { TestDialog2 } from './dialog/TestDialog2';
 import { TestDialog3 } from './dialog/TestDialog3';
@@ -19,11 +20,7 @@ function App({}: Props): ReactElement {
       <button
         onClick={() =>
           openDialog(
-            <DialogTemplate
-              onClose={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
-            >
-              1
-            </DialogTemplate>,
+            <Dialog onClose={() => openDialog(<Dialog>2</Dialog>)}>1</Dialog>,
           )
         }
       >
@@ -34,11 +31,7 @@ function App({}: Props): ReactElement {
       <button
         onClick={() =>
           openDialog(
-            <DialogTemplate
-              onClose={() => openDialog(<DialogTemplate>2</DialogTemplate>)}
-            >
-              1
-            </DialogTemplate>,
+            <Dialog onClose={() => openDialog(<Dialog>2</Dialog>)}>1</Dialog>,
           )
         }
       >
@@ -48,9 +41,9 @@ function App({}: Props): ReactElement {
       <h2>모달창 동시 호출 테스트</h2>
       <button
         onClick={() => {
-          openDialog(<DialogTemplate>A</DialogTemplate>);
-          openDialog(<DialogTemplate>B</DialogTemplate>);
-          openDialog(<DialogTemplate>C</DialogTemplate>);
+          openDialog(<Dialog>A</Dialog>);
+          openDialog(<Dialog>B</Dialog>);
+          openDialog(<Dialog>C</Dialog>);
         }}
       >
         한번에 여러 모달창 나오기
@@ -84,6 +77,15 @@ function App({}: Props): ReactElement {
         }}
       >
         중복 모달 띄우기 (전역 상태)
+      </button>
+      <hr />
+      <h2>Toast 테스트</h2>
+      <button
+        onClick={() => {
+          openDialog(<Toast message="토스트 메세지" />);
+        }}
+      >
+        toast
       </button>
     </>
   );

@@ -1,64 +1,26 @@
-import {
-  FC,
-  MouseEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { createPortal } from 'react-dom';
+import { FC, MouseEventHandler, ReactEventHandler, useRef } from 'react';
 import styled from 'styled-components';
-
-interface DialogProps {
-  className?: string;
-  onOpen?: () => void;
-  onClose?: () => void;
-  onDestroy?: (isConfirm?: boolean) => void;
-}
+import { DialogProps, useDialog } from './useDialog';
 
 const blockClick: ReactEventHandler = e => e.stopPropagation();
 
-export const DialogTemplate: FC<DialogProps> = ({
-  onOpen,
-  onClose,
-  onDestroy,
-  children,
-}) => {
+export const Dialog: FC<DialogProps> = ({ children, ...dialogProps }) => {
   const ref = useRef(null);
-  const [isVisible, setIsVisibile] = useState(true);
-  const [destroy, setDestroy] = useState(false);
+  const { destroy, close, isVisible } = useDialog(ref, dialogProps);
 
-  const close: MouseEventHandler<HTMLDivElement> = e => {
-    const currentDialog: HTMLElement = ref.current!;
-
-    setIsVisibile(false);
-    onClose?.();
-
-    currentDialog.onanimationend = (e: AnimationEvent) => {
-      onDestroy?.();
-      currentDialog.onanimationend = null;
-      setDestroy(true);
-    };
-
+  const closeAndStopPropagation: MouseEventHandler = e => {
+    close();
     e.stopPropagation();
   };
 
-  useEffect(() => {
-    onOpen?.();
-    return () => {};
-  }, []);
-
-  if (destroy) return null;
-
-  return createPortal(
-    <Backdrop ref={ref} isVisible={isVisible} onClick={close}>
-      <Dialog onClick={blockClick}>{children}</Dialog>
-    </Backdrop>,
-    document.querySelector('body')!,
+  return destroy ? null : (
+    <Backdrop ref={ref} isVisible={isVisible} onClick={closeAndStopPropagation}>
+      <DialogWrap onClick={blockClick}>{children}</DialogWrap>
+    </Backdrop>
   );
 };
 
-const Backdrop = styled.div<{ isVisible: boolean }>`
+export const Backdrop = styled.div<{ isVisible: boolean }>`
   width: 100vw;
   height: 100vh;
 
@@ -92,7 +54,7 @@ const Backdrop = styled.div<{ isVisible: boolean }>`
   }
 `;
 
-const Dialog = styled.div`
+const DialogWrap = styled.div`
   width: 100px;
   height: 100px;
   background: white;
