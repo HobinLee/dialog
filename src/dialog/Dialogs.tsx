@@ -1,4 +1,11 @@
-import { cloneElement, FC, ReactElement, useEffect, useState } from 'react';
+import {
+  cloneElement,
+  FC,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Alert } from './dialogs/Alert';
 import { Confirm } from './dialogs/Confirm';
 
@@ -8,39 +15,42 @@ interface DialogEvent extends Event {
   };
 }
 
-let id = 0;
-
-const dialogStore: ReactElement[] = [];
-
 const EVENT_OPEN_DIALOG = 'openDialog';
 
 export const Dialogs: FC = () => {
-  const [dialogs, setDialogs] = useState<ReactElement[]>([]);
-
-  const addDialog = (e: Event) => {
-    dialogStore.push(
-      cloneElement((e as DialogEvent).detail.dialog, {
-        key: id++,
-      }),
-    );
-
-    setDialogs([...dialogStore]);
-  };
+  const dialogList = useRef<ReactElement[]>([]).current;
+  const [, setDialogNum] = useState(0);
 
   useEffect(() => {
     window.addEventListener(EVENT_OPEN_DIALOG, addDialog);
     return () => window.removeEventListener(EVENT_OPEN_DIALOG, addDialog);
+
+    function addDialog(e: Event) {
+      dialogList.push(
+        cloneElement((e as DialogEvent).detail.dialog, {
+          key: dialogList.length,
+        }),
+      );
+
+      setDialogNum(dialogList.length);
+    }
   }, []);
 
-  return <>{dialogs}</>;
+  return <>{dialogList}</>;
 };
 
 export const openDialog = (dialog: ReactElement) => {
-  const dialogEvent = new CustomEvent(EVENT_OPEN_DIALOG, {
+  const dialogEvent = new CustomEvent('openDialog', {
     detail: {
-      dialog: <div>{dialog}</div>,
+      dialog: dialog,
     },
   });
+
+  window.dispatchEvent(dialogEvent);
+};
+
+export const closeAll = () => {
+  const dialogEvent = new CustomEvent('closeAllDialogs');
 
   window.dispatchEvent(dialogEvent);
 };
